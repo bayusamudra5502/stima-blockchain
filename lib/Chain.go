@@ -5,7 +5,14 @@ type Chain struct {
 	length int64
 }
 
-func (c *Chain) AddChain(payload string, signature string) {
+func NewChain() Chain {
+	var ch Chain
+	ch.length = 0
+
+	return ch
+}
+
+func (c *Chain) AddChain(payload string) {
 	var lastHash [32]byte
 	lastChain := c.LastChain()
 
@@ -13,7 +20,7 @@ func (c *Chain) AddChain(payload string, signature string) {
 		lastHash = lastChain.GetHash()
 	}
 
-	newItem := &ChainItem{payload, signature, lastHash}
+	newItem := &ChainItem{payload, lastHash}
 	c.chain = append(c.chain, newItem)
 	c.length++
 }
