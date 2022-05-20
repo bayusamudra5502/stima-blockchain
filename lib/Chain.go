@@ -20,7 +20,7 @@ func (c *Chain) AddChain(payload string) {
 		lastHash = lastChain.GetHash()
 	}
 
-	newItem := &ChainItem{payload, lastHash}
+	newItem := &ChainItem{Payload: payload, LastHash: lastHash}
 	c.chain = append(c.chain, newItem)
 	c.length++
 }
