@@ -11,7 +11,7 @@
 \usepackage[outputdir=.]{minted}
 \usepackage{amsthm}
 \usepackage{ragged2e}
-
+\usepackage{mathtools}
 
 \hypersetup{
     colorlinks=true,
@@ -36,7 +36,7 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
-\graphicspath{{./docs/img}}
+\graphicspath{{./img}}
 
 %%% Footer Left
 \makeatletter
@@ -109,7 +109,7 @@ Struktur blok terdiri atas beberapa komponen penting diantaranya adalah sebagai 
 Pada blok yang ideal, seluruh komponen diatas perlu ada. Hal ini untuk menjaga integritas dari blok tersebut dari serangan luar yang tidak diinginkan.
 
 \subsection{Protokol Pengiriman}
-Dalam menyebarkan struktur blockchain diperlukan aturan yang dapat menjaga integritas rantai tersebut. Beberapa protokol terinspirasi dari protokol yang diterapkan oleh bitcoin. Beberapa protokol yang penting adalah sebagai berikut:
+Dalam menyebarkan struktur blockchain diperlukan aturan yang dapat menjaga integritas rantai tersebut. Beberapa protokol terinspirasi dari protokol yang diterapkan oleh bitcoin \cite{a2}. Beberapa protokol yang penting adalah sebagai berikut:
 
 \subsubsection{Blok yang ditambahkan valid}
 Sebelum sebuah blok ditambahkan pada blockchain, perlu dipastikan blok tersebut harus valid. Blok yang valid dapat didefinisikan sesuai dengan kebutuhan. Salah contoh penerapan validitas pada kasus mata uang kripto adalah setiap blok yang dibuat haruslah cukup dengan jumlah saldo yang dimiliki oleh pengirim.
@@ -125,8 +125,245 @@ Pembangkit bilangan acak merupakan salah satu alat penting dalam kriptografi. Pe
 
 \subsubsection{Linear Congruential Generator (LCG)}
 
-Pembangkit bilangan acak ini didasarkan pada rekursifitas terhadap nilai sebelumnya.
+Pembangkit bilangan acak ini didasarkan pada rekursifitas terhadap nilai sebelumnya. Berdasarkan sumber dari \cite{b1}, Berikut ini adalah formula yang dapat digunakan untuk mendapatkan nilai acak menggunakan LCG:
 
+\begin{equation} \label{eq:lcg}
+    x_{i+1} = (ax_i + b) \mod m
+\end{equation}
+
+Untuk memulai pembangkitan bilangan acak, diperlukan nilai $x_0$ yang merupakan umpan dari bilangan acak ini.
+
+Periode bilangan acak dari LCG ini pastilah tidak akan melebihi nilai $m$. Hal ini dikarenakan adanya modulo yang diberikan pada persamaan \ref{eq:lcg}. Menurut \cite{a1}, Algoritma ini memiliki periode sebagai berikut:
+
+\begin{theorem}[Teorema Hull–Dobell] \label{theo:hulldobell}
+    Sebuah LCG yang didefinisikan pada definisi \ref{eq:lcg} dapat memiliki periode penuh, yaitu berperiode $m-1$ jika memenuhi syarat berikut:
+    \begin{enumerate}
+        \item $b$ relatif prima terhadap $m$,
+        \item $a \equiv 1 \text{(mod }p\text{)}$ jika $p$ merupakan faktor prima dari $m$,
+        \item $a \equiv 1 \text{(mod }4\text{)}$ jika $m$ adalah bilangan yang habis dibagi oleh 4.
+    \end{enumerate}
+\end{theorem}
+
+Pembangkit bilangan acak berbasis LCG biasanya sudah tersedia  dalam berbagai bahasa pemrograman. Selain mudah diimplementasikan, algoritma ini juga sangat mangkus dikarenakan hanya diperlukan kompleksitas $O(1)$ dalam membuat bilangan acak. Sayangnya, algoritma ini cukup mudah ditebak nilai acaknya sehingga tidak cocok untuk penggunaan kriptografi. \cite{b1}
+
+\subsubsection{Blum-Blum-Shub}
+
+Algoritma \emph{Blum-Blum-Shub} (BBS) merupakan salah satu algoritma pembangkit bilangan acak yang lebih aman untuk kebutuhan kriptografi. Menurut \cite{b1}, algoritma ini merupakan algoritma yang paling mangkus dan paling seerhana dari semua algoritma pembangkitan bilangan acak yang termasuk dalam kategori \emph{cryptographically-secure pseudorandom number generator} (CSPRNG). Menurut \cite{b1}, Berikut ini adalah algortma yang digunakan untuk membuat bilangan acak menggunakan BBS:
+
+\begin{enumerate}
+    \item Menentukan bilangan prima rahasia $p$ dan $q$ yang memenuhi kongruensi berikut
+
+    \begin{equation} \label{eq:bbs1}
+        p \equiv q \equiv -1 \text{ }(\text{mod } 4) 
+    \end{equation}
+    \item Hitunglah nilai $n = pq$. Nilai $n$ ini disebut dengan bilangan bulat blum. 
+    \item Diperlukan menentukan nilai umpan $x_0$. Untuk mendapatkan nilai ini, tentukan bilangan bulat acak lain, misalkan $s$ yang memenuhi:
+    \subitem $1 < s < n$
+    \subitem $s$ dan $n$ relatif prima.
+
+    Nilai $x_0$ dengan formula sebagai berikut 
+    \begin{equation} \label{eq:bbs2}
+        x_0 = s^2 \mod n
+    \end{equation}
+    \item Nilai $x_i$ bisa diperoleh dengan formula berikut
+    \begin{equation} \label{eq:bbs3}
+        x_i = x_{i-1}^2 \mod n
+    \end{equation}
+    \item Diambil nilai LSB dari $x_i$ sebut saja $z_i$. Nilai $z_i = x_i \mod 2$. Nilai $z_i$ menyusun bit-bit dari bilangan baru yang dibentuk.
+\end{enumerate}
+
+\subsection{SHA-3 (Keccak)}
+SHA-3 meupakan algortma fungsi hash satu arah yang dibuat oleh Guido Breton, Joan Daemen, dan Michaël Peeters. Algoritma ini menggantikan algoritma MD5 dan SHA-1 yang telah ditemukan kolisinya sehingga sudah tidak aman lagi.
+
+Fungsi hash merupakan fungsi yang menerima masukan string dengan panjang sembarang dan menghasilkan hash yang memiliki panjang tetap. Fungsi hash satu arah berarti pesan yang telah melakukan kompresi menjadi nilai hash tidak bisa dipulihkan kembali menjadi nilai aslinya. \cite{b1}
+
+Dalam algoritma SHA-3 dikenal sebuah istilah spons. Spons merupakan state yang diinisialisasi dengan nilai 0. Pada algoritma ini dikenal beberapa fase, yaitu sebagai berikut: \cite{b1}
+
+\begin{enumerate}
+    \item Fase Persiapan \\
+    Pada fase ini, pesan yang akan dihash akan diberikan padding terlebih dahulu dan dipecah menjadi beberapa blok dengan ukuran $r$. 
+    \item Fase Penyerapan \\
+    Pada fase ini, blok-blok yang telah dipecah tadi diserap dengan cara melakukan operasi xor terhadap spons dengan panjang $r$. Hasil operasi tersebut lalu dimasukan ke dalam fungsi permutasi. Hal ini dilakukan hingga semua blok sudah terisi.
+    \item Fase Pemerasan \\
+    DIlakukan inisialisasi pada string kosong $Z$. Selagi panjang $Z$ belum sama dengan panjang string keluaran yang diinginkan, ambil $r$ digit pertama disambungkan dengan $Z$ lalu masukan spons ke dalam fungsi permutasi.   
+\end{enumerate}
+
+Berikut ini adalah ilustrasi pembentukan spons dari algoritma SHA-3.
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=0.9\columnwidth]{fig1.png}}
+    \caption{Ilustrasi pembentukan spons (Sumber: Wikipedia)}
+\end{figure}
+
+\subsection{Digital Signature Algorithm (DSA)}
+Salah satu aspek penting yang harus ada dalam blockhain adalah tanda tangan digital. Terdapat cukup banyak algoritma tanda tangan digital yang teredia. Untuk bahasan kali ini, penulis hanya membatasi membahas mengenai tanda tangan digital DSA (\emph{Digital Signature Algorithm}).
+
+Dikutip dari \cite{b1}, Sebelum melakukan proses diperlukan melakukan perhitungan beberapa nilai sebagai berikut: 
+\begin{itemize}
+    \item Nilai $p$ merupakan bilangan prima yang bersifat publik dengan panjang $L$.  Nilai $L$ haruslah kelipatan 64 dan berada pada rentang $64 \le L \le 1024$. 
+    \item Nilai $q$ merupakan bilangan prima 160 bit yang merupakan faktor dari $p - 1$ dan bersifat publik.
+    \item Nilai $g = h ^ {(p-1)/q}$ dengan nilai $h < p - 1$ sehingga membuat nilai $g \mod p > 1$. Nilai ini bersifat publik.
+    \item $x$ merupakan bilangan bulat kurang dari $q$.  Nilai ini bersifat privat.
+    \item Nilai $y = g^x \mod p$ yang merupakan kunci publik.
+    \item Pesan $M$ yang akan ditandatangani.
+    \item Nilai $H(M)$ yang merupakan hash dari pesan $M$.
+\end{itemize}
+
+Untuk membuat tanda tangan, seorang pengirim perlu mendapatkan sebuah angka acak $k$ yang kurang dari $q$. Tanda tangan $r$ dan $s$ dapat didapatkan dengan rumus sebagai berikut: \cite{b1}
+
+\begin{equation} \label{eq:dsa1} 
+    r = (g^k \text{ mod } p) \text{ mod } q
+\end{equation}
+
+\begin{equation} \label{eq:dsa2} 
+    s = k^{-1}(H(M) + xr) \text{ mod } q
+\end{equation}
+
+Untuk melakukan verifikasi pesan, seorang penerima perlu mendapatkan nilai $(p,q,g,y)$ dan hasil tandatangan $(r,s)$. Perhitungan yang dilakukan adalah sebagai berikut: \cite{b1}
+
+\begin{equation} \label{eq:dsa3} 
+    w = s^{-1} \text{ mod } q
+\end{equation}
+\begin{equation} \label{eq:dsa4} 
+    u_1 = (H(M) \cdot w) \text{ mod } q
+\end{equation}
+
+\begin{equation} \label{eq:dsa5} 
+    u_2 = rw \text{ mod } q
+\end{equation}
+
+\begin{equation} \label{eq:dsa6} 
+    v = ((g^{u_1} \cdot y^{u_2}) \text{ mod } p) \text{ mod } q
+\end{equation}
+
+Apabila nilai $v = r$, dapat dikatakan tandatangan sah.
+
+\subsection{Decrease and Conquer (DnC)}
+
+\emph{Decrease and conquer} (DnC) merupakan metode perancangan algoritma penyeselaian dengan mereduksi persoalan menjadi dua bagian yang selanjutnya akan dipilih sebuah sub persoalan untuk dievaluasi selanjutnya. \cite{ppt1}
+
+Terdapat beberapa variasi dari metode \emph{Decrease and conquer}, yaitu sebagai berikut
+
+\begin{itemize}
+    \item \emph{Decrease by constant} \\
+    Pada variasi ini, ukuran persoalan dikurangi berdasarkan besar yang konstan setiap iterasi algoritma berlangsung. Salah satu contoh algoritma yang termasuk dalam kategori ini adalah \emph{selection sort} dengan konstanta 1.
+    \item \emph{Decrease by constant factor} \\
+    Pada variasi ini, ukuran persoalan direduksi berdasarkan nilai faktor yang konstan selama iterasi berlangsung. Salah satu contoh algoritma yang termasuk dalam kategori ini adalah pencarian biner dengan faktor konstanta 2.
+    \item \emph{Decrease by variable size} \\
+    Pada variasi ini, ukuran persoalan direduksi dengan jumlah bervariasi setiap kali dilakukannya iterasi.  Salah satu contoh algoritma yang termasuk dalam bentuk ini adalah pencarian interpolasi.
+\end{itemize}
+
+Algoritma ini juga terdiri atas dua tahapan penting yaitu sebagai berikut:
+\begin{enumerate}
+    \item \emph{Decrease} \\
+    Pada tahap ini, persoalan  akan dibagi menjadi beberapa upa-persoalan yang lebih kecil.
+    \item \emph{Conquer} \\
+    Pada tahap ini, akan dipilih sebuah upa-persoalan yang akan diselesaikan. Upa-persoalan terpilih akan diselesaikan kembali menggunakan DnC secara  rekursif.
+\end{enumerate}
+
+\section{Perancangan Algoritma}
+
+Pada bab ini, akan dibahas rancangan algoritma yang digunakan untuk menyelesaikan permasalahan.
+
+\subsection{Deskripsi Permasalahan}
+Akan dibandingkan kesamaan antara dua buah blockchain yang sama panjang. Bila kedua blockchain berbeda, akan dicari blok pertama yang menyebabkan kedua blockchain berbeda. 
+
+\subsection{Asumsi dan Batasan}
+Dalam perancangan ini, diberikan beberapa asumsi sebagai berikut:
+\begin{itemize}
+    \item Blockhain bisa saja memiliki lebih dari 1 buah blok yang berbeda.
+    \item Nilai hash dari blok sebelumnya valid. Hal ini berarti tidak ada blok yang memiliki nilai blok yang berbeda dengan yang dicatatkan pada blok tersebut.
+    \item Dalam pengujian, struktur blockhain hanya terdiri atas nilai hash sebelumnya dan konten dari blok. Hal ini dimaksudkan untuk menyederhanakan dan mempercepat proses pengujian.
+\end{itemize}
+
+\subsection{Desain Algoritma}
+Algoritma yang digunakan menggunakan metode \emph{decrease and conquer} berbasis \emph{decrease by constant factor}. Faktor yang  digunakan untuk mereduksi adalah 2. Berikut ini adalah algoritma lengkap mengenai proses yang dilakukan saat pencarian blok yang berbeda:
+
+\begin{enumerate}
+    \item Set nilai awal $l$ sebagai indeks batas bawah (inklusif) dari pencarian dan nilai $r$ sebagai indeks batas atas (eksklusif) dari pencarian.
+    \item Cek apakah nilai $l < r$. Bila tidak hentikan iterasi. Kedua blockchain merupakan blok yang sama.
+    \item Hitung hash blok tengah dengan indeks ke-$\lfloor \frac{l+r}{2} \rfloor$ dari kedua blok.
+    \item Bila nilai hash dari keduanya sama, maka set nilai $l$ menjadi $\lfloor \frac{l+r}{2} \rfloor$. Lanjutkan iterasi ke langkah ke-2.
+    \item Bila nilai hash dari keduanya tidak sama, perlu diperiksa letak dari blok tengah. Bila blok tengah merupakan blok awal (berindeks 0), maka kedua blockchain berbeda pada blok pertama. Hentikan iterasi.
+    \item Bila nilai hash dari keduanya tidak sama dan blok tengah tidak berada pada indeks 0, perlu diperiksa hash blok sebelumnya. Apabila hash blok sebelumnya dari kedua blockchain memiliki nilai yang sama, blok pertama yang berbeda adalah blok tengah. Hentikan iterasi.
+    \item Bila nilai hash dari keduanya tidak sama , blok tengah tidak berada pada indeks 0, dan indeks sebelumnya berbeda, ubah nilai $r$ menjadi $\lfloor \frac{l+r}{2} \rfloor$. Lanjutkan iterasi ke langkah 2.
+\end{enumerate}
+
+\subsection{Psedeocode Penyelesaian}
+Psedeocode dari penyelesaian permasalahan di atas ditunjukan oleh algortma pada figur \ref{algo:1}.
+
+
+\begin{figure}
+    \begin{minted}{go}
+func FindFirstDiff(chain1, chain2 Chain) 
+    int64 {
+  if chain1.length != chain2.length {
+      panic("Ukuran chain harus sama")
+  }
+  
+  l := int64(0)
+  r := chain1.length
+  
+  for l < r {
+      center := (l + r) / 2
+      diff := 
+        CheckDifference(chain1, chain2, 
+          center)
+  
+      if diff == 0 {
+        return center
+      } else if diff > 0 {
+        l = center + 1
+      } else {
+        r = center
+      }
+  }
+  
+  return -1
+}
+        
+    \end{minted}
+    \caption{Algoritma Pencarian Blok dengan DnC}
+    \label{algo:1} 
+\end{figure}
+
+Fungsi CheckDifference() memberikan nilai 0 pada saat ditemukan blok yang berada pada indeks ke-0 tapi berbeda atau blok yang tidak berada di indeks ke-0, berbeda, dan hash sebelumnya sama. Fungsi ini juga memberikan nilai 1 apabila ditemukan nilai blok yang dites pada indeks tersebut sama. Fungsi ini juga memberikan nilai -1 bila blok pada indeks yang dipilih dan pada indeks sebelumnya dari dua buah blockchain berbeda.
+
+
+\begin{figure}
+    \begin{minted}{go}
+func CheckDifference(Chain1, Chain2 Chain,
+    idx int64) int64 {
+  it1 := Chain1.GetChainItem(idx)
+  it2 := Chain2.GetChainItem(idx)
+  
+  if it1.GetBase64Hash() 
+     != it2.GetBase64Hash() {
+    if idx > 0 {
+      last1 := Chain1.GetChainItem(idx - 1)
+      last2 := Chain2.GetChainItem(idx - 1)
+  
+      if last1.GetBase64Hash() == 
+        last2.GetBase64Hash() {
+        return 0
+      } else {
+        return -1
+      }
+    } else {
+      return 0
+    }
+  } else {
+    return 1
+  }
+}        
+    \end{minted}
+    \caption{Algoritma Pembanding}
+    \label{algo:2} 
+\end{figure}
+
+Nilai 0 pada fungsi CheckDifference() berarti blok yang membuat dua buah chain berbeda ditemukan. Nilai -1 berarti blok yang membuat berbeda berada pada indeks kurang dari indeks saat ini. Nilai 1 berarti blok yang  membuat berbeda bisa jadi berada pada indeks yang lebih besar dari indeks saat ini. Pemberian nilai 1 pada fungsi ini tidak menjamin akan mendapatkan blok yang berbeda dikarenakan bisa jadi kedua buah blockchain sama.
+
+\subsection{Analisis Solusi}
 
 \section{Kesimpulan}
 Steganografi merupakan salah satu cara untuk menyembunyikan data pada sebuah cover. Steganografi memiliki banyak cara, salah satunya adalah steganografi dengan metode LSB. Metode LSB ini sangatlah sederhana dan mudah
@@ -138,7 +375,7 @@ dibandingkan tanpa pengacakan. Selain itu, penggunaan kanal secara merata dapat 
 \section*{Ucapan Terima Kasih}
 Alhamdulillah, segala puji Allah SWT karena atas pertolongan dan rahmatnya, saya dapat menyelesaikan makalah ini. Penulis juga turut memberikan ucapan terima kasih kepada keluarga yang selalu setia untuk
 memberikan motivasi dan semangat untuk dapat menyelesaikan makalah ini. Penulis juga turut mengucapkan terima kasih kepada para dosen pengampu mata kuliah Matematika Diskrit, yaitu ibu Dr. Nur Ulfa Maulidevi, S.T., M.Sc., bapak Dr. Ir.
-Rinaldi Munir, M.T., dan ibu Dra. Harlili S., M.Sc. atas segala ilmunya yang telah membantu penulis dalam menyelesaikan makalah ini. Semoga dengan kebaikan yang telah diberikan, Allah akan menggantinya dengan yang lebih baik lagi.
+Rinaldi Munir, M.T., dan ibu Dr. Masayu Leylia Khodra. atas segala ilmunya yang telah membantu penulis dalam menyelesaikan makalah ini. Semoga dengan kebaikan yang telah diberikan, Allah akan menggantinya dengan yang lebih baik lagi.
 
 \section*{Sumber Daya}
 Segala sumber daya yang digunakan untuk membangun makalah ini dapat anda akses pada \url{https://github.com/bayusamudra5502/stima-blockchain}.
@@ -146,6 +383,10 @@ Segala sumber daya yang digunakan untuk membangun makalah ini dapat anda akses p
 
 \begin{thebibliography}{00}
 \bibitem{b1} Munir, Rinaldi. 2019. \emph{Kriptografi Edisi Kedua}. Bandung: Penerbit Informatika 
+\bibitem{ppt1} Munir, Rinaldi. 2021. Algoritma Decrease and COnquer. Bandung: Institut Teknologi Bandung. DIakses pada 2022-05-21 melalui https://informatika.stei.itb.ac.id/~rinaldi.munir/Stmik/2020-2021/Algoritma-Decrease-and-Conquer-2021-Bagian1.pdf
+\bibitem{a1} Hull, T. E. \& Dobell, A. R. 1962. Random Number Generators. SIAM Review, 4(3), 233. Diakses pada 2022-05-21 melalui http://chagall.med.cornell.edu/BioinfoCourse/PDFs/Lecture4\\
+/random\_number\_generator.pdf.
+\bibitem{a2} Nakamoto, Satoshi. 2008. Bitcoin: A Peer-to-Peer Electronic Cash System. Diakses pada 2022-05-21 melalui https://bitcoin.org/bitcoin.pdf.
 \end{thebibliography}
 
 \section*{Pernyataan}
