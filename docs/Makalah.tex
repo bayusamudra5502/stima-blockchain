@@ -1,0 +1,155 @@
+\documentclass[10pt,conference]{IEEEtran}
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage[outputdir=.]{minted}
+\usepackage{amsthm}
+\usepackage{ragged2e}
+
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=blue,      
+    urlcolor=blue,
+    pdftitle={Penerapan Algoritma Decrease and Conquer dalam Mencari Blok Pertama yang Berbeda pada Blockchain},
+    pdfpagemode=FullScreen,
+}
+
+\urlstyle{same}
+
+\def\abstractname{Abstrak}
+\def\IEEEkeywordsname{Kata Kunci}
+\def\refname{Daftar Pustaka}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definisi}[section]
+
+\newtheorem{theorem}{Teorema}[section]
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\graphicspath{{./docs/img}}
+
+%%% Footer Left
+\makeatletter
+
+\def\ps@headings{
+\let\@oddhead\@empty
+\let\@evenhead\@empty
+\def\@oddfoot{Makalah IF2211 Strategi Algoritma – Sem. II Tahun 2021/2022\hfill}
+\def\@evenfoot{Makalah IF2211 Strategi Algoritma – Sem. II Tahun 2021/2022\hfill}
+}
+
+\def\ps@IEEEtitlepagestyle{% default title page headers, no footers
+\let\@oddhead\@empty
+\let\@evenhead\@empty
+\def\@oddfoot{Makalah IF2211 Strategi Algoritma – Sem. II Tahun 2021/2022\hfill}%
+\let\@evenfoot\@empty
+}
+\makeatother
+
+\pagestyle{headings}
+
+% Document
+
+\begin{document}
+
+\title{Penerapan Algoritma  \emph{Decrease and Conquer} dalam Mencari Blok Pertama yang Berbeda pada Blockchain}
+
+\author{\IEEEauthorblockN{Bayu Samudra - 13520128\textsuperscript{1}}
+\IEEEauthorblockA{\textit{Program Studi Teknik Informatika} \\
+\textit{Sekolah Teknik Elektro dan Informatika}\\
+Institut Teknologi Bandung, Jl. Ganesha 10 Bandung 40132, Indonesia \\
+\textsuperscript{1}13520128@std.stei.itb.ac.id}
+}
+
+\maketitle
+
+\begin{abstract}
+NANTI DULU
+\end{abstract}
+
+\begin{IEEEkeywords}
+Blockhain, Kriptografi, SHA-32
+\end{IEEEkeywords}
+
+\section{Pendahuluan}
+Pada saat ini, perkembangan teknologi digital sangatlah berkembang pesat. Banyak sekali teknologi digital yang baru dari tahun ke tahun. Salah satu teknologi yang muncul dan cukup terkenal saat ini adalah mata uang kripto. Mata uang kripto merupakan sebuah aset digital yang dimiliki seseorang dan dilindungi oleh kriptografi untuk menjaga kepemilikan aset tersebut. Mata uang kripto dapat dipertukarkan dari satu mata uang ke mata uang lainnya. Mata uang ini berdiri di atas teknologi blockhain yang saat ini berkembang cukup pesat.
+
+Teknologi blockhain saat ini penggunaanya tidak hanya dipakai untuk mata uang saja. Pemanfaatan lain dari blockchain ini dapat diimplementasikan pada dunia kesehatan, engineering, bahkan hukum. Saat ini berkembang salah satu penerapan blockhain, yaitu \emph{Non-Fungible Token} (NFT) yang berjalan diatas blockhain untuk menjaga kepemilikan dari suatu barang.
+
+Seperti namanya, blockchain terdiri atas beberapa blok yang saling berkaitan satu sama lain. Setiap blok pada blockhain akan diikat dengan referensi hash dari rantai sebelumnya. Oleh karena itu, pengecekan dua buah blok dapat dengan mudah dilakukan dengan cara melihat saja blok terakhir yang disimpan. Selain itu, blok yang  berbeda ini juga dapat dicari dengan berbagai algoritma. Pada makalah kali ini, penulis membatasi pencarian blok yang berbeda hanya pada blok pertama dari sebuah rantai acak yang dibuat.
+
+\section{Teori Dasar}
+\subsection{Struktur Blok}
+Struktur blok terdiri atas beberapa komponen penting diantaranya adalah sebagai berikut:
+
+
+    \subsubsection{Hash blok sebelumnya}
+    Seperti yang telah diketahui pada bab sebelumnya, blockchain haruslah terdiri dari rangkaian blok yang saling terhubung satu sama lain. Blok ini dihubungkan dengan hash dari setiap blok sebelumnya. Nilai hash ini juga yang akan menjaga integritas dari suatu block dari perubahan. Perubahan terjadi tentu saja akan mengubah nilai hash dari blok tersebut sehingga blok tersebut akan tidak valid.
+
+    \subsubsection{Konten}
+    Konten perlu disimpan pada struktur blok. Konten ini dapat berisi data kepemilikan, data transaksi, atau data yang lainnya. Data ini harus terjaga integritasnya sehingga data ini tidak boleh berubah. 
+
+    \subsubsection{Tanda tangan digital} 
+    Untuk memastikan otorisasi dari sebuah blok, diperlukan sebuah bukti persetujuan dari blok tersebut. Dalam uang mata kripto, salah satu cara yang dapat dilakukan adalah menyertakan tanda tangan digital dari block tersebut. Tanda tangan digital pada dasarnya merupakan kumpulan bit yang dapat memrepresentasikan keabsahan kepemilikan data berdasarkan kucin privat dan kunci publik. Teknis tanda tangan digital ini akan dijelaskan pada bagian selanjutnya.
+
+    \subsubsection{\emph{Proof of work}} 
+    Penjagaan hanya menggunakan hash tentu saja tidaklah cukup. Pengubahan tetap saja dapat  dilakukab dengan cara mengubah isi konten dari data dan juga menghitung ulang seluruh hash dari tiap-tiap blok. Proses perhitungan hash ini biasanya cukup cepat oleh karena itu diperlukan proteksi tambahan yaitu \emph{proof of work}. Proof of work merupakan rangkaian bit yang dapat membuat hash dari sebuah block memiliki pola tertentu. Pencarian rangkaian bit ini tentu saja membutuhkan waktu yang lama sehingga menghambat proses perubahan data pada blockhain.
+
+    
+Pada blok yang ideal, seluruh komponen diatas perlu ada. Hal ini untuk menjaga integritas dari blok tersebut dari serangan luar yang tidak diinginkan.
+
+\subsection{Protokol Pengiriman}
+Dalam menyebarkan struktur blockchain diperlukan aturan yang dapat menjaga integritas rantai tersebut. Beberapa protokol terinspirasi dari protokol yang diterapkan oleh bitcoin. Beberapa protokol yang penting adalah sebagai berikut:
+
+\subsubsection{Blok yang ditambahkan valid}
+Sebelum sebuah blok ditambahkan pada blockchain, perlu dipastikan blok tersebut harus valid. Blok yang valid dapat didefinisikan sesuai dengan kebutuhan. Salah contoh penerapan validitas pada kasus mata uang kripto adalah setiap blok yang dibuat haruslah cukup dengan jumlah saldo yang dimiliki oleh pengirim.
+
+\subsubsection{Blok baru haruslah ditransmisikan ke seluruh titik}
+Setiap blok baru yang dibuat haruslah ditransmisikan ke seluruh pemirsa yang berada pada jaringan. Hal ini untuk menjaga keaslian dari rantai blok yang telah dibentuk dikarenakan rangkaian yang asli tersebar di seluruh komputer  yang berada pada jaringan. Untuk mengubah rantai, siperlukan mengubah semua rantai yang ada pada jaringan.
+
+\subsubsection{Blok yang akan ditambahkan haruslah berasal dari rantai yang valid}
+Disini rantai yang valid didefinisikan rantai yang tersusun atas blok-blok yang valid. Keabsahan dari rantai dapat dilihat dari rantai terakhir pada sebuah blok. Apabila hash terakhir tertera pada blok yang akan ditambahkan dan blok yang akan ditambahkan sah, rantai tersebut bisa jadi valid. Untuk pemeriksaan terakhir, perlu dilakukan sampling dari node lain apakah rantai yang dimiliki saat ini valid. Hal ini dapat dilakukan pemeriksaan juga menggunakan blok  terakhir. Bila terjadi perbedaan, dapat dilakukan perubahan sesuai dengan rantai yang benar yang berasal dari node lain.
+
+
+
+\section{Kesimpulan}
+Steganografi merupakan salah satu cara untuk menyembunyikan data pada sebuah cover. Steganografi memiliki banyak cara, salah satunya adalah steganografi dengan metode LSB. Metode LSB ini sangatlah sederhana dan mudah
+untuk diimplementasikan pada sebuah media baik itu gambar maupun media lainnya. 
+
+Penggunaan sistem acak dan penggunaan multi kanal dapat meningkatkan kualitas dari steganografi yang dilakukan. hal ini ditunjukan dengan hasill steganalisis visual yang menunjukan sistem acak memberikan keamanan lebih
+dibandingkan tanpa pengacakan. Selain itu, penggunaan kanal secara merata dapat juga memberikan penyamaran lebih terhadap steganalisis visual sehingga lebih sulit dikenali.
+
+\section*{Ucapan Terima Kasih}
+Alhamdulillah, segala puji Allah SWT karena atas pertolongan dan rahmatnya, saya dapat menyelesaikan makalah ini. Penulis juga turut memberikan ucapan terima kasih kepada keluarga yang selalu setia untuk
+memberikan motivasi dan semangat untuk dapat menyelesaikan makalah ini. Penulis juga turut mengucapkan terima kasih kepada para dosen pengampu mata kuliah Matematika Diskrit, yaitu ibu Dr. Nur Ulfa Maulidevi, S.T., M.Sc., bapak Dr. Ir.
+Rinaldi Munir, M.T., dan ibu Dra. Harlili S., M.Sc. atas segala ilmunya yang telah membantu penulis dalam menyelesaikan makalah ini. Semoga dengan kebaikan yang telah diberikan, Allah akan menggantinya dengan yang lebih baik lagi.
+
+\section*{Sumber Daya}
+Segala sumber daya yang digunakan untuk membangun makalah ini dapat anda akses pada \url{https://github.com/bayusamudra5502/stima-blockchain}.
+
+
+\begin{thebibliography}{00}
+\bibitem{b1} Munir, Rinaldi. 2019. \emph{Kriptografi Edisi Kedua}. Bandung: Penerbit Informatika 
+\end{thebibliography}
+
+\section*{Pernyataan}
+Dengan ini saya menyatakan bahwa makalah yang saya tulis adalah tulisan saya sendiri, bukan sanduran, ataupun terjemahan dari makalah orang lain, dan bukan plagiasi.
+
+
+\vspace{20px}
+\hspace*{\fill} Cimahi, 21 Mei 2022
+
+\vspace{50px}
+\hspace*{\fill} Bayu Samudra - 13520128
+
+\end{document}
