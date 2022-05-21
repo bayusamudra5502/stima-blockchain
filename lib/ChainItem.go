@@ -29,3 +29,8 @@ func (c ChainItem) GetEncode() string {
 
 	return base64.StdEncoding.EncodeToString(payload)
 }
+
+func (c ChainItem) GetBase64Hash() string {
+	hash := c.GetHash()
+	return base64.StdEncoding.EncodeToString(hash[:])
+}

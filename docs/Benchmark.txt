@@ -1,0 +1,48 @@
+?   	github.com/bayusamudra5502/stima-blockchain	[no test files]
+?   	github.com/bayusamudra5502/stima-blockchain/lib	[no test files]
+goos: linux
+goarch: amd64
+pkg: github.com/bayusamudra5502/stima-blockchain/test
+cpu: Intel(R) Core(TM) i5-8300H CPU @ 2.30GHz
+BenchmarkBF-8    	   82569	     19896 ns/op
+BenchmarkBF-8    	   76132	     28569 ns/op
+BenchmarkBF-8    	   76572	     24240 ns/op
+BenchmarkBF-8    	   53552	     26084 ns/op
+BenchmarkBF-8    	   67977	     25986 ns/op
+BenchmarkBF-8    	   81165	     22328 ns/op
+BenchmarkBF-8    	   76640	     20747 ns/op
+BenchmarkBF-8    	   88002	     22816 ns/op
+BenchmarkBF-8    	   75732	     19860 ns/op
+BenchmarkBF-8    	   84171	     20824 ns/op
+BenchmarkBF-8    	   76976	     13409 ns/op
+BenchmarkBF-8    	   80157	     17940 ns/op
+BenchmarkBF-8    	   77131	     27043 ns/op
+BenchmarkBF-8    	   73650	     20996 ns/op
+BenchmarkBF-8    	   79214	     20974 ns/op
+BenchmarkBF-8    	   73347	     20730 ns/op
+BenchmarkBF-8    	   81148	     21032 ns/op
+BenchmarkBF-8    	   75535	     14699 ns/op
+BenchmarkBF-8    	   75909	     18664 ns/op
+BenchmarkBF-8    	   84258	     18017 ns/op
+BenchmarkDnC-8   	   82234	     24920 ns/op
+BenchmarkDnC-8   	   82988	     21132 ns/op
+BenchmarkDnC-8   	   72968	     23846 ns/op
+BenchmarkDnC-8   	   72582	     15774 ns/op
+BenchmarkDnC-8   	   78888	     24841 ns/op
+BenchmarkDnC-8   	   75997	     16559 ns/op
+BenchmarkDnC-8   	   89738	     24811 ns/op
+BenchmarkDnC-8   	   81324	     24266 ns/op
+BenchmarkDnC-8   	   83862	     20510 ns/op
+BenchmarkDnC-8   	   85425	     21863 ns/op
+BenchmarkDnC-8   	   73968	     22484 ns/op
+BenchmarkDnC-8   	   75675	     42791 ns/op
+BenchmarkDnC-8   	   68139	     31301 ns/op
+BenchmarkDnC-8   	   77546	     26095 ns/op
+BenchmarkDnC-8   	   47540	     29693 ns/op
+BenchmarkDnC-8   	   63212	     30382 ns/op
+BenchmarkDnC-8   	   61857	     34246 ns/op
+BenchmarkDnC-8   	   66163	     19592 ns/op
+BenchmarkDnC-8   	   67681	     29813 ns/op
+BenchmarkDnC-8   	   66656	     23678 ns/op
+PASS
+ok  	github.com/bayusamudra5502/stima-blockchain/test	133.289s

@@ -22,24 +22,49 @@ func BuildRandomChain(length int) Chain {
 	return ch
 }
 
-func BuildSimilarChain(seed Chain, diff int) Chain {
+func BuildSimilarChain(seed Chain, diff int64) (Chain, []int64) {
 	ch := NewChain()
+	var idx []int64
 	var i int64
 
-	for i = 0; i < seed.length; i++ {
-		p := rand.Float64()
+	for i = 0; i < diff; i++ {
+		isFound := false
+		newIdx := rand.Int63n(seed.length)
 
-		if p > 0.65 && diff > 0 {
+		for !isFound {
+			newIdx = rand.Int63n(seed.length)
+			isFound = true
+			for _, val := range idx {
+				if val == newIdx {
+					isFound = false
+				}
+			}
+		}
+
+		idx = append(idx, newIdx)
+	}
+
+	for i = 0; i < seed.length; i++ {
+		isRandom := false
+
+		for _, val := range idx {
+			if val == i {
+				isRandom = true
+				break
+			}
+		}
+
+		if isRandom {
 			len := rand.Int63n(1000) + 1
 
 			ch.AddChain(RandomString(len))
 			diff--
 		} else {
-			ch.AddChain(ch.GetChainItem(i).Payload)
+			ch.AddChain(seed.GetChainItem(i).Payload)
 		}
 	}
 
-	return ch
+	return ch, idx
 }
 
 func RandomString(length int64) string {
