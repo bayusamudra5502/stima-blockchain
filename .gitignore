@@ -4,5 +4,6 @@
 *.fls
 *.log
 *.out
+*.gz
 
 _minted-Makalah/
