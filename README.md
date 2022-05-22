@@ -1,3 +1,7 @@
 # Penerapan Algoritma Decrease and Conquer dalam Mencari Blok Pertama yang Berbeda pada Blockchain
 
-Pencarian block yang menyebabkan dua buah rantai blockhain berbeda berbeda 
+Pada saat ini, perkembangan teknologi digital sangatlah berkembang pesat. Banyak sekali teknologi digital yang baru dari tahun ke tahun. Salah satu teknologi yang muncul dan cukup terkenal saat ini adalah mata uang kripto. Mata uang kripto merupakan sebuah aset digital yang dimiliki seseorang dan dilindungi oleh kriptografi untuk menjaga kepemilikan aset tersebut. Mata uang kripto dapat dipertukarkan dari satu mata uang ke mata uang lainnya. Mata uang ini berdiri di atas teknologi blockhain yang saat ini berkembang cukup pesat.
+
+Teknologi blockhain saat ini penggunaanya tidak hanya dipakai untuk mata uang saja. Pemanfaatan lain dari blockchain ini dapat diimplementasikan pada dunia kesehatan, engineering, bahkan hukum. Saat ini berkembang salah satu penerapan blockhain, yaitu \emph{Non-Fungible Token} (NFT) yang berjalan diatas blockhain untuk menjaga kepemilikan dari suatu barang.
+
+Seperti namanya, blockchain terdiri atas beberapa blok yang saling berkaitan satu sama lain. Setiap blok pada blockhain akan diikat dengan referensi hash dari rantai sebelumnya. Oleh karena itu, pengecekan dua buah blok dapat dengan mudah dilakukan dengan cara melihat saja blok terakhir yang disimpan. Selain itu, blok yang  berbeda ini juga dapat dicari dengan berbagai algoritma. Pada makalah kali ini, penulis membatasi pencarian blok yang berbeda hanya pada blok pertama dari sebuah rantai acak yang dibuat.
