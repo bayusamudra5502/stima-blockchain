@@ -74,7 +74,7 @@ Institut Teknologi Bandung, Jl. Ganesha 10 Bandung 40132, Indonesia \\
 \maketitle
 
 \begin{abstract}
-NANTI DULU
+Blockchain merupakan rangkaian blok yang terhubung antara satu dengan lainnya. Blok-blok dalam blockchain dihubungkan dengan mereferensikan nilai hash pada blok sebelumnya. Hash yang digunakan pada makalah kali adalah SHA3. Sifat yang dimiliki algoritma hash ini adalah sangat sensitif terhadap perubahan walaupun kecil. Dengan memanfaatkan sifat ini dan juga struktur blockhain maka dapat dicari blok pertama dari sebuah rantai yang membuat dua buah rantai berbeda. Algoritma ini memanfaatkan pendekatan \emph{decrease and conquer}. Algoritma ini bekerja dalam kompleksitas logaritmik sehingga sangat efisien. Pemanfaatan algoritma ini dapat digunakan pada bidang forensik dan juga keamanan untuk melakukan audit terhadap dua buah blockchain yang berbeda.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -431,14 +431,18 @@ Hasil yang dikeluarkan oleh algoritma secara \emph{Brute Force}  dan \emph{decre
 
 
 \subsection{Analisis Hasil Pengujian}
+Dari hasil pengujian di atas terlihat bahwa waktu eksekusi menggunakan \emph{Brute Force} jauh lebih besar dibangkan dengan waktu eksekusi menggunakan \emph{decrease and conquer}. Hal ini dibuktikan dengan garis biru yang lebih cepat untuk menaik dibandingkan denggan garis jingga yang lebih lambat untuk menaik. Hal ini terjadi dikarenakan kompleksitas algoritma \emph{brute force} berada pada tingkat $O(n)$. Hal ini cukup jauh signifikan dengan algoritma \emph{decrease and conquer} yang memiliki kompleksitas $O(\log n)$, 
 
+Selain itu, belum ditemukan kasus yang menyebabkan hasil dari kedua algoritma ini berbeda. Oleh karena itu, algoritma ini dapat digunakan untuk melakukan pencarian indeks blok pertama yang menyebabkan kedua blockchain berbeda.
 
 \section{Kesimpulan}
-Steganografi merupakan salah satu cara untuk menyembunyikan data pada sebuah cover. Steganografi memiliki banyak cara, salah satunya adalah steganografi dengan metode LSB. Metode LSB ini sangatlah sederhana dan mudah
-untuk diimplementasikan pada sebuah media baik itu gambar maupun media lainnya. 
+Blockchain merupakan salah satu teknologi yang dapat menjaga integritas data walaupun data disebarkan secara publik. Blockchain ini dapat dimanfaatkan dalam berbagai bidang. Blockchain pada dasarnya terdiri atas blok-blok yang saling terhubung satu sama lain. Satu blok terhubung dengan blok sebelumnya dengan cara mereferensikan nilai hash dari blok sebelumnya pada blok baru.
 
-Penggunaan sistem acak dan penggunaan multi kanal dapat meningkatkan kualitas dari steganografi yang dilakukan. hal ini ditunjukan dengan hasill steganalisis visual yang menunjukan sistem acak memberikan keamanan lebih
-dibandingkan tanpa pengacakan. Selain itu, penggunaan kanal secara merata dapat juga memberikan penyamaran lebih terhadap steganalisis visual sehingga lebih sulit dikenali.
+SHA-3 merupakan hash satu arah bersifat \emph{irreversible} dan juga sangat sensitif dengan perubahan kecil. Pemanfaatan fungsi hash ini akan melindungi dari perubahan yang terjadi. 
+
+Dengan keterhubungan tersebut, dapat digunakan algoritma yang telah dipaparkan sebelumnya untuk mencari blok yang memiliki nilai berbeda. Algortma ini juga memiliki kompleksitas yang cukup memuaskan yaitu $O(\log n)$.
+
+Pemanfaatan algoritma ini dapat digunakan oleh tim forensik untuk mengaudit sebuah blockchain panjang. Pengauditan ini dapat dipakai untuk memeriksa manakah penyebab blockchain berbeda dan menganalisis informasi pesan yang terkandung dalam blockchain tersebut. 
 
 \section*{Ucapan Terima Kasih}
 Alhamdulillah, segala puji Allah SWT karena atas pertolongan dan rahmatnya, saya dapat menyelesaikan makalah ini. Penulis juga turut memberikan ucapan terima kasih kepada keluarga yang selalu setia untuk
