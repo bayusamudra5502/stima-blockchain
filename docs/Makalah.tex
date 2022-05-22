@@ -401,9 +401,34 @@ Dari penjelasan diatas dapat terlihat, pada saat pemeriksaan suatu blok indeks k
 Pada bagian ini, akan dilakukan pengujian solusi yang telah ditawarkan pada bagian sebelumnya. 
 
 \subsection{Teknis Pengujian}
-Pengujian akan dilakukan dengan membandingkan solusi yang dihasilkan dengan algoritma yang dipaparkan diatas dengan algoritma penyelesaian secara brute force. Selain itu, akan dilakukan perhitungan waktu eksekusi tiap-tiap uji kasus. Uji kasus akan dibuat secara acak dengan ukuran konten maksimal 1024 bytes. Panjang chain yang akan dipakai dalam pengujian adalah 10, 100, 1.000, 10.000, dan 100.000. Setiap panjang chain akan dilakukan 5 kali pengujian dengan data yang acak.
+Pengujian akan dilakukan dengan membandingkan solusi yang dihasilkan dengan algoritma yang dipaparkan diatas dengan algoritma penyelesaian secara brute force. Selain itu, akan dilakukan perhitungan waktu eksekusi tiap-tiap uji kasus. Uji kasus akan dibuat secara acak dengan ukuran konten maksimal 1024 bytes. Panjang rantai yang akan dipakai dalam pengujian adalah antara 1000 s.d. 100.000. (Inklusif) sebanyak 45 data.
 
 \subsection{Hasil Pengujian}
+
+Berikut ini adalah ringkasan data hasil pengujian yang dilakukan.
+\vspace{8px}
+
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Data Statistik} & \textbf{Waktu Brute Force} & \textbf{Waktu DnC} \\ \hline
+Rata-rata               & 0,23 s                     & 168 us             \\ \hline
+Standar Deviasi         & 0.2 s                      & 56 us              \\ \hline
+Maksimum                & 0.7 s                      & 328 us             \\ \hline
+Minimum                 & 0.5 ms                     & 60 us              \\ \hline
+\end{tabular}
+
+\vspace{8px}
+
+Grafik hasil pengujian ditunjukan pada gambar \ref{fig:grafik}. Pada grafik tersebut, titik biru menyatakan waktu eksekusi saat menggunakan algoritma \emph{Brute Force}. Titik berwarna jingga merupakan waktu eksekusi saat menggunakan algoritma  \emph{decrease and conquer}.
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=0.9\columnwidth]{grafik.png}}
+    \caption{Waktu Eksekusi}
+    \label{fig:grafik}
+\end{figure}
+
+Hasil yang dikeluarkan oleh algoritma secara \emph{Brute Force}  dan \emph{decrease and conquer} semuanya sama. Hal ini terlihat dari berbagai sampel dengan ukuran rantai acak, tidak ditemukan perbedaan hasil.
+
 
 \subsection{Analisis Hasil Pengujian}
 

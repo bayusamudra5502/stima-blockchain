@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"strconv"
 	"sync"
 	"time"
 
 	"github.com/bayusamudra5502/stima-blockchain/lib"
 )
-
-var CHAIN_LEN_TC = []int64{1_000, 5_000, 10_000, 50_000, 100_000}
 
 const TRY_NUMBER = 5
 
@@ -18,13 +17,15 @@ func main() {
 
 	fmt.Println("SIZE;ASSERT;BF TIME;DnC Time")
 
-	for _, size := range CHAIN_LEN_TC {
+	for i := 0; i < 3; i++ {
 		group.Add(1)
 
-		go (func(size int64) {
+		go (func() {
 			defer group.Done()
 
 			for i := 0; i < TRY_NUMBER; i++ {
+				size := rand.Int31n(99_000) + 1_000
+
 				for j := 0; j < 3; j++ {
 					ch := lib.BuildRandomChain(int(size))
 					ch2, _ := lib.BuildSimilarChain(ch, int64(j))
@@ -42,7 +43,7 @@ func main() {
 					fmt.Printf("%d;%s;%d;%d\n", size, strconv.FormatBool(dncResult == bfResult), BFTime, DnCTime)
 				}
 			}
-		})(size)
+		})()
 	}
 
 	group.Wait()
