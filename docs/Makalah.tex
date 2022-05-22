@@ -363,7 +363,50 @@ func CheckDifference(Chain1, Chain2 Chain,
 
 Nilai 0 pada fungsi CheckDifference() berarti blok yang membuat dua buah chain berbeda ditemukan. Nilai -1 berarti blok yang membuat berbeda berada pada indeks kurang dari indeks saat ini. Nilai 1 berarti blok yang  membuat berbeda bisa jadi berada pada indeks yang lebih besar dari indeks saat ini. Pemberian nilai 1 pada fungsi ini tidak menjamin akan mendapatkan blok yang berbeda dikarenakan bisa jadi kedua buah blockchain sama.
 
+\subsection{Analisis Kompleksitas}
+Berdasarkan algoritma yang telah dipaparkan sebelumnya, terlihat bahwa permasalahan akan tereduksi menjadi dua seiring waktu secara rekursif. Diasumsikan perhitungan kompleksitas berdasarkan jumlah perbandingan yang terjadi. Berikut ini adalah kompleksitas waktu yang ditbutuhkan oleh algoritma:
+
+$$ 
+T(n) =
+\begin{cases}
+    1, &\text{jika } n = 0\\
+    T(n/2) + 2, &\text{sisanya}
+\end{cases}
+$$
+
+Perbandingan terjadi saat pengecekan kondisi kalang dan juga pengecekan nilai tengah. Dari nilai diatas, dapat disimpulkan bahwa notasi big-O dari algoritma ini adalah sebagai berikut:
+
+$$
+T(n) = O(\log n)
+$$
+
 \subsection{Analisis Solusi}
+Proses penyelesaian ini mirip dengan proses pencarian biner. Hal ini bisa dilakukan dikarenakan sifat dari nilai hash itu sendiri. Seperti yang telah diketahui sebelumnya, nilai hash berubah cukup jauh walaupun perubahan yang terjadi cukup kecil. Hal ini bisa berdampak pada rantai selanjutnya apabila terdapat perbedaan nilai hash.
+
+Ilustrasi dari proses ini, misalkan terdapat dua rantai dengan panjang $n$. Rantai ini memiliki pesan blok yang berbeda pada indeks ke-$k$. Nilai hash pada indeks ke-0 sampai dengan indeks ke-$(k-1)$ pastilah memiliki nilai yang sama. Hal ini dikarenakan konten data yang dilibatkan pada rantai ini sama. 
+
+Pada blok ke-$k$, terjadi perbedaan konten dari blok tersebut. Disini akan muncul perbedaan hash dari kedua buah blockhain. Dikarenakan setiap blok mereferensikan hash blok sebelumnya, nilai hash blok setelah indeks ke-$k$ bisa berbeda cukup signifikan dibandingkan dengan blok pada blockhain lainnya. 
+
+Proses pencarian ini dilakukan dengan memeriksa blok tengah dari rantai yang akan diperiksa. Misal saja blok tersebut berada di indeks ke-$i$. Apabila blok indeks ke-$i$ memiliki nilai hash yang sama, blok pada indeks kurang dari $i$ tentu saja dapat dipastikan sama. Oleh karena itu, proses pemeriksaan dapat dilanjutkan dengan memindahkan awal pencarian ke indeks $i+1$. Proses ini dapat mengurangi pemeriksaan yang diperlukan.
+
+Apabila pada saat pemeriksaan di indeks ke-$i$ didapati terjadi perbedaan nilai hash, dapat terjadi dua buah kemungkinan. Kemungkinan pertama, apabila indeks ke-$i$ merupakan blok yang paling pertama ($i=0$), dapat  dipastikan blok tersebut adalah blok pertama yang menyebabkan kedua rantai tersebut berbeda.
+
+Berbeda halnya bila blok pada indeks ke-$i$ bukan merupakan blok awal. Diperlukan untuk melakukan pemeriksaan terlebih dahulu pada blok sebelumnya, yaitu blok dengan indeks ke-$(k-1)$. Apabila didapati blok dengan indeks ke-$(k-1)$ memiliki nilai hash yang sama pada kedua rantai, dapat dipastikan bahwa blok dengan indeks dari 0 sampai dengan indeks ke-$(k-1)$ sama. Oleh karena itu, pastilah blok pada indeks ke-$k$ merupakan blok pertama yang menyebabkan terjadinya perbedaan antara kedua rantai.
+
+Apabila kedua buah rantai memiliki nilai hash yang berbeda pada indeks ke-$(k-1)$, tidak dapat dipastikan blok pada indeks ke-$(k-1)$ merupakan blok yang pertama kali menyebabkan kedua buah rantai ini berbeda. Akan tetapi, dapat dipastikan blok yang menyebabkan rantai berbeda pertama kali berada pada indeks kurang dari $k$. Hal ini terlacak dari perbedaan pada nilai hash indeks ke-$k$ dan juga indeks ke-$(k-1)$ yang keduanya sama-sama berbeda. Oleh karena itu, perlu dilakukan pencarian dari indeks ke-$0$ sampai dengan indeks ke-$(k-1)$.
+
+Dari penjelasan diatas dapat terlihat, pada saat pemeriksaan suatu blok indeks ke-$k$ terjadi perbedaan nilai hash, dapat dipastikan terdapat paling tidak satu buah blok yang berbeda pada indeks ke-0 sampai dengan indeks ke-$(k-1)$. Namun, apabila nilai hash pada indeks ke-$k$ memiliki nilai yang sama, belum bisa dipastikan akan terdapat sebuah blok pada indeks lebih dari $k$ yang menyebabkan dua buah blockchain berbeda.
+
+\section{Pengujian Solusi}
+Pada bagian ini, akan dilakukan pengujian solusi yang telah ditawarkan pada bagian sebelumnya. 
+
+\subsection{Teknis Pengujian}
+Pengujian akan dilakukan dengan membandingkan solusi yang dihasilkan dengan algoritma yang dipaparkan diatas dengan algoritma penyelesaian secara brute force. Selain itu, akan dilakukan perhitungan waktu eksekusi tiap-tiap uji kasus. Uji kasus akan dibuat secara acak dengan ukuran konten maksimal 1024 bytes. Panjang chain yang akan dipakai dalam pengujian adalah 10, 100, 1.000, 10.000, dan 100.000. Setiap panjang chain akan dilakukan 5 kali pengujian dengan data yang acak.
+
+\subsection{Hasil Pengujian}
+
+\subsection{Analisis Hasil Pengujian}
+
 
 \section{Kesimpulan}
 Steganografi merupakan salah satu cara untuk menyembunyikan data pada sebuah cover. Steganografi memiliki banyak cara, salah satunya adalah steganografi dengan metode LSB. Metode LSB ini sangatlah sederhana dan mudah

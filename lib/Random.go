@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+const MAX_BYTES = 2048
+
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
@@ -15,7 +17,7 @@ func BuildRandomChain(length int) Chain {
 	ch := NewChain()
 
 	for i := 0; i < length; i++ {
-		len := rand.Int63n(1000) + 1
+		len := rand.Int63n(MAX_BYTES-1) + 1
 		ch.AddChain(RandomString(len))
 	}
 
@@ -55,7 +57,7 @@ func BuildSimilarChain(seed Chain, diff int64) (Chain, []int64) {
 		}
 
 		if isRandom {
-			len := rand.Int63n(1000) + 1
+			len := rand.Int63n(MAX_BYTES-1) + 1
 
 			ch.AddChain(RandomString(len))
 			diff--

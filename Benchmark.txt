@@ -1,48 +1,76 @@
-?   	github.com/bayusamudra5502/stima-blockchain	[no test files]
-?   	github.com/bayusamudra5502/stima-blockchain/lib	[no test files]
-goos: linux
-goarch: amd64
-pkg: github.com/bayusamudra5502/stima-blockchain/test
-cpu: Intel(R) Core(TM) i5-8300H CPU @ 2.30GHz
-BenchmarkBF-8    	   82569	     19896 ns/op
-BenchmarkBF-8    	   76132	     28569 ns/op
-BenchmarkBF-8    	   76572	     24240 ns/op
-BenchmarkBF-8    	   53552	     26084 ns/op
-BenchmarkBF-8    	   67977	     25986 ns/op
-BenchmarkBF-8    	   81165	     22328 ns/op
-BenchmarkBF-8    	   76640	     20747 ns/op
-BenchmarkBF-8    	   88002	     22816 ns/op
-BenchmarkBF-8    	   75732	     19860 ns/op
-BenchmarkBF-8    	   84171	     20824 ns/op
-BenchmarkBF-8    	   76976	     13409 ns/op
-BenchmarkBF-8    	   80157	     17940 ns/op
-BenchmarkBF-8    	   77131	     27043 ns/op
-BenchmarkBF-8    	   73650	     20996 ns/op
-BenchmarkBF-8    	   79214	     20974 ns/op
-BenchmarkBF-8    	   73347	     20730 ns/op
-BenchmarkBF-8    	   81148	     21032 ns/op
-BenchmarkBF-8    	   75535	     14699 ns/op
-BenchmarkBF-8    	   75909	     18664 ns/op
-BenchmarkBF-8    	   84258	     18017 ns/op
-BenchmarkDnC-8   	   82234	     24920 ns/op
-BenchmarkDnC-8   	   82988	     21132 ns/op
-BenchmarkDnC-8   	   72968	     23846 ns/op
-BenchmarkDnC-8   	   72582	     15774 ns/op
-BenchmarkDnC-8   	   78888	     24841 ns/op
-BenchmarkDnC-8   	   75997	     16559 ns/op
-BenchmarkDnC-8   	   89738	     24811 ns/op
-BenchmarkDnC-8   	   81324	     24266 ns/op
-BenchmarkDnC-8   	   83862	     20510 ns/op
-BenchmarkDnC-8   	   85425	     21863 ns/op
-BenchmarkDnC-8   	   73968	     22484 ns/op
-BenchmarkDnC-8   	   75675	     42791 ns/op
-BenchmarkDnC-8   	   68139	     31301 ns/op
-BenchmarkDnC-8   	   77546	     26095 ns/op
-BenchmarkDnC-8   	   47540	     29693 ns/op
-BenchmarkDnC-8   	   63212	     30382 ns/op
-BenchmarkDnC-8   	   61857	     34246 ns/op
-BenchmarkDnC-8   	   66163	     19592 ns/op
-BenchmarkDnC-8   	   67681	     29813 ns/op
-BenchmarkDnC-8   	   66656	     23678 ns/op
-PASS
-ok  	github.com/bayusamudra5502/stima-blockchain/test	133.289s
+SIZE;ASSERT;BF TIME;DnC Time
+1000;true;7878678;51371
+1000;true;2113200;121560
+1000;true;938847;146101
+1000;true;6295083;63318
+5000;true;37996328;90984
+1000;true;3013289;107756
+1000;true;1947641;91962
+1000;true;6949056;79060
+1000;true;7546383;87717
+1000;true;7029109;183238
+5000;true;20739687;111331
+10000;true;80169884;97059
+1000;true;7658751;45193
+1000;true;5505631;131663
+1000;true;2449878;72871
+1000;true;9335595;57802
+1000;true;124243;107239
+5000;true;10268348;159753
+1000;true;184094;108144
+10000;true;3184209;175093
+5000;true;50688332;92591
+5000;true;13006092;123857
+10000;true;10917626;127623
+5000;true;1167793;124682
+5000;true;34234341;121447
+5000;true;19037271;92904
+10000;true;65857231;98393
+5000;true;1363260;134754
+5000;true;39164305;89461
+10000;true;57489527;78605
+50000;true;396320084;127634
+5000;true;27659797;189852
+5000;true;7344019;153448
+10000;true;2682144;150553
+5000;true;30792576;74182
+5000;true;15623409;557479
+10000;true;86134073;102119
+5000;true;13579300;132633
+10000;true;47885288;115009
+10000;true;10144723;136373
+10000;true;100943555;110323
+50000;true;121814990;286851
+100000;true;735482975;178584
+10000;true;56156722;127403
+10000;true;16964674;259333
+10000;true;66063044;114167
+10000;true;831325;156348
+50000;true;101996564;154801
+10000;true;52681628;110646
+100000;true;67878420;213001
+50000;true;416036240;160674
+50000;true;171445428;183365
+100000;true;88044952;137334
+50000;true;98786413;292945
+50000;true;367600276;108537
+50000;true;231610750;160445
+100000;true;758403458;100020
+50000;true;151603478;177427
+100000;true;379350349;182464
+50000;true;380478005;134787
+50000;true;365138332;169711
+100000;true;688131053;152462
+50000;true;253231078;98558
+50000;true;387461746;111790
+100000;true;723131022;131843
+50000;true;354726378;184722
+50000;true;190193753;193065
+100000;true;364034738;175444
+100000;true;245812022;179909
+100000;true;648625760;125995
+100000;true;396319169;121929
+100000;true;104119074;128576
+100000;true;631274008;97206
+100000;true;222299726;176607
+100000;true;43244411;176997
